@@ -24,7 +24,7 @@ lesson_06_newlib/
 ## 构建与运行
 
 ```bash
-cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../../cmake/arm-none-eabi-gcc.cmake
+cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../cmake/arm-none-eabi-gcc.cmake
 cmake --build build/Debug
 
 qemu-system-arm -M microbit -kernel build/Debug/lesson_06_newlib.elf \

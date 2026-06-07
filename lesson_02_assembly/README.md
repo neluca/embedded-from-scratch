@@ -25,7 +25,7 @@ lesson_02_assembly/
 ## 构建与运行
 
 ```bash
-cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../../cmake/arm-none-eabi-gcc.cmake
+cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../cmake/arm-none-eabi-gcc.cmake
 cmake --build build/Debug
 
 # 运行单个练习

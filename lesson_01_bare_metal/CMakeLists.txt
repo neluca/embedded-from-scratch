@@ -1,10 +1,10 @@
 # ==============================================================================
-# Phase 1: Bare-Metal Hello World
+# Lesson 1: Bare-Metal Hello World
 # ==============================================================================
 # 构建一个最小的 ARM Cortex-M0 裸机程序, 通过 semihosting 输出 "Hello World"
 #
 # 构建:
-#   cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../../cmake/arm-none-eabi-gcc.cmake
+#   cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../cmake/arm-none-eabi-gcc.cmake
 #   cmake --build build/Debug
 #
 # 运行:
@@ -48,7 +48,7 @@ target_link_options(${PROJECT_NAME} PRIVATE
 
 # 链接 GCC 运行时库 (提供软件除法等辅助函数)
 # 使用 target_link_libraries 确保 -lgcc 放在 object 文件之后
-# M0+ 无硬件除法器, 使用 / 或 % 运算符需要 __aeabi_uidiv 系列函数
+# M0 无硬件除法器, 使用 / 或 % 运算符需要 __aeabi_uidiv 系列函数
 target_link_libraries(${PROJECT_NAME} PRIVATE gcc)
 
 # 编译选项

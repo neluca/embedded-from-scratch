@@ -41,7 +41,7 @@ qemu-system-arm -M microbit -kernel lesson_08.elf \
 ### Terminal 2 — GDB
 
 ```bash
-arm-none-eabi-gdb lesson_08.elf -x ../../scripts/debug.gdb
+arm-none-eabi-gdb lesson_08.elf -x ../scripts/debug.gdb
 ```
 
 ## 优化级别对比

@@ -40,7 +40,7 @@ git clone --depth 1 --branch V11.1.0 \
     https://github.com/FreeRTOS/FreeRTOS-Kernel.git lesson_07_freertos/FreeRTOS-Kernel
 
 # 构建
-cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../../cmake/arm-none-eabi-gcc.cmake
+cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../cmake/arm-none-eabi-gcc.cmake
 cmake --build build/Debug
 
 # 运行（注意：QEMU microbit 不触发 SysTick 中断，调度器不工作）

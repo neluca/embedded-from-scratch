@@ -1,5 +1,5 @@
 # ==============================================================================
-# Phase 8: Advanced Topics & Final Demo
+# Lesson 8: Advanced Topics & Final Demo
 # ==============================================================================
 cmake_minimum_required(VERSION 3.20)
 project(lesson_08_advanced LANGUAGES C ASM)

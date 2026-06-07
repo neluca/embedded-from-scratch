@@ -1,5 +1,5 @@
 # ==============================================================================
-# Phase 7: FreeRTOS on Cortex-M0+ (microbit)
+# Lesson 7: FreeRTOS on Cortex-M0 (microbit)
 # ==============================================================================
 cmake_minimum_required(VERSION 3.20)
 

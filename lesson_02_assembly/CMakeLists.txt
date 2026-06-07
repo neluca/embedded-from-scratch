@@ -1,10 +1,10 @@
 # ==============================================================================
-# Phase 2: ARM Cortex-M0+ 汇编语言
+# Lesson 2: ARM Cortex-M0 汇编语言
 # ==============================================================================
 # 每个 .s 文件是一个独立程序, 构建为单独的 ELF 可执行文件
 #
 # 构建:
-#   cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../../cmake/arm-none-eabi-gcc.cmake
+#   cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../cmake/arm-none-eabi-gcc.cmake
 #   cmake --build build/Debug
 # ==============================================================================
 cmake_minimum_required(VERSION 3.20)
@@ -68,4 +68,4 @@ foreach(ASM_FILE ${ASM_FILES})
     add_qemu_targets(${EXE_NAME})
 endforeach()
 
-message(STATUS "Phase 2: ${ASM_FILES} assembly programs ready")
+message(STATUS "Lesson 2: ${ASM_FILES} assembly programs ready")
