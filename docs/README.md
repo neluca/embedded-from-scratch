@@ -28,6 +28,7 @@
 | Lesson 8 | [README](../lesson_08_advanced/README.md) | 高级主题与总结 |
 | Lesson 9 | [README](../lesson_09_bootloader/README.md) | Bootloader + Application |
 | Lesson 10 | [README](../lesson_10_watchdog/README.md) | WDT 看门狗与系统可靠性 |
+| Lesson 11 | [README](../lesson_11_error_handling/README.md) | 错误处理与防御性编程 |
 
 ---
 
