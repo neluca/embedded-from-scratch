@@ -1,0 +1,148 @@
+# ==============================================================================
+# CI/CD: Build all ARM Cortex-M0 embedded learning lessons
+# ==============================================================================
+name: Build & Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  CMAKE_GENERATOR: Ninja
+
+jobs:
+  # --------------------------------------------------------------------------
+  # Build all lessons with ARM GCC cross-compiler
+  # --------------------------------------------------------------------------
+  build:
+    name: Build (ARM GCC ${{ matrix.gcc-version }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        gcc-version: ['13.3.rel1']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Build Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+
+      - name: Install ARM GCC
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        with:
+          release: ${{ matrix.gcc-version }}
+
+      - name: Verify ARM GCC
+        run: arm-none-eabi-gcc --version
+
+      - name: Configure (Debug)
+        run: >
+          cmake -B build_debug -S .
+          -DCMAKE_TOOLCHAIN_FILE=cmake/arm-none-eabi-gcc.cmake
+          -DCMAKE_BUILD_TYPE=Debug -G Ninja
+
+      - name: Build (Debug)
+        run: cmake --build build_debug
+
+      - name: Configure (Release)
+        run: >
+          cmake -B build_release -S .
+          -DCMAKE_TOOLCHAIN_FILE=cmake/arm-none-eabi-gcc.cmake
+          -DCMAKE_BUILD_TYPE=Release -G Ninja
+
+      - name: Build (Release)
+        run: cmake --build build_release
+
+      - name: Show Size (Release)
+        run: |
+          echo "=== Build Artifacts ==="
+          find build_release -name "*.elf" -o -name "*.bin" | sort | while read f; do
+            if [[ "$f" == *.elf ]]; then
+              echo "--- $(basename $f) ---"
+              arm-none-eabi-size "$f"
+            fi
+          done
+
+  # --------------------------------------------------------------------------
+  # Test key lessons in QEMU
+  # --------------------------------------------------------------------------
+  test:
+    name: QEMU Test
+    runs-on: ubuntu-24.04
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build qemu-system-arm
+
+      - name: Install ARM GCC
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+        with:
+          release: '13.3.rel1'
+
+      - name: Build Lessons
+        run: >
+          cmake -B build -S .
+          -DCMAKE_TOOLCHAIN_FILE=cmake/arm-none-eabi-gcc.cmake
+          -DCMAKE_BUILD_TYPE=Debug -G Ninja
+          && cmake --build build
+
+      - name: Test Lesson 1 (Bare Metal)
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_01_bare_metal/lesson_01_bare_metal.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Hello Embedded World" && echo "PASS" || { echo "FAIL"; exit 1; }
+
+      - name: Test Lesson 8 (Advanced)
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_08_advanced/lesson_08_advanced.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "All.*phases complete" && echo "PASS" || { echo "FAIL"; exit 1; }
+
+      - name: Test Lesson 9 (Bootloader)
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_09_bootloader/bootloader.elf \
+            -device loader,file=build/lesson_09_bootloader/app.bin,addr=0x00002000 \
+            -semihosting -nographic -serial null -monitor none 2>&1)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Application Complete" && echo "PASS" || { echo "FAIL"; exit 1; }
+
+  # --------------------------------------------------------------------------
+  # Code style check (clang-format)
+  # --------------------------------------------------------------------------
+  format:
+    name: Code Style
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+
+      - name: Check Formatting
+        run: |
+          find . -name "*.c" -o -name "*.h" | while read f; do
+            clang-format --dry-run -Werror "$f" || { echo "Format error in $f"; exit 1; }
+          done
