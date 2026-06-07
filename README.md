@@ -22,7 +22,7 @@
 ```bash
 # 克隆（含 FreeRTOS 子模块）
 git clone --recurse-submodules https://github.com/neluca/embedded-from-scratch.git
-cd embedded-learn
+cd embedded-from-scratch
 
 # 构建所有阶段
 cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=cmake/arm-none-eabi-gcc.cmake -G Ninja
@@ -47,6 +47,44 @@ export ARM_GCC_PREFIX=/opt/arm-gcc/bin/arm-none-eabi-
 # Windows (Git Bash)
 export ARM_GCC_PREFIX=D:/Bin/arm/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-
 ```
+
+---
+
+## 为什么从 Cortex-M0 开始？
+
+Cortex-M0 是 ARM 家族中最精简的处理器——**整个指令集只有 56 条指令**。这不是缺陷，而是一种优势。
+
+### 用小指令集，学大道理
+
+<pre>
+ ARM 指令集复杂度对比:
+ 
+ ARMv7-M (Cortex-M3/M4):  200+ 条指令  →  功能强大但难入门
+ ARMv6-M (Cortex-M0/M0+):  56 条指令   →  <b>2 小时可学完全部指令</b>
+</pre>
+
+M0 的指令少，意味着你可以在极短时间内**看到全貌**。一旦掌握了 M0，向上迁移到 M3/M4/M7 就只是"多了些方便指令"——核心概念完全相通。这比从复杂的 M4 入手、被大量指令淹没效率高得多。
+
+### 你将获得的能力
+
+| 层级 | 技能 | 可迁移到 |
+|------|------|----------|
+| **指令层** | 手写 ARM 汇编、理解 AAPCS 调用约定、读懂反汇编 | 任何 ARM 芯片 (A 系列 / R 系列 / M 系列) |
+| **芯片层** | NVIC 中断控制、SysTick/PendSV/SVC 异常、内存映射 I/O | Cortex-M0/M0+/M3/M4/M7/M23/M33 |
+| **系统层** | 链接脚本、启动代码、newlib 移植、FreeRTOS 集成 | 所有嵌入式 RTOS 项目 |
+| **工程层** | CMake 交叉编译、GDB 远程调试、QEMU 仿真、CI/CD | 通用嵌入式工程实践 |
+| **可靠性层** | 看门狗策略、断言系统、栈溢出检测、CRC 校验、故障日志 | 工业/汽车/医疗等关键领域 |
+
+### 举一反三
+
+M0 上学到的**每一条原理**都可以直接用于更大的 ARM 芯片：
+
+- M0 的 `ldr r0, [r1, #4]` → M4 的 `ldr r0, [r1, r2, lsl #2]` — 寻址模式更灵活，但**本质都是内存访问**
+- M0 的 `CMP + B<cond>` → M4 的 `CBZ/CBNZ` + `IT` 块 — 多了捷径，但**分支逻辑不变**
+- M0 的手动软件除法 → M4 的 `UDIV/SDIV` — 硬件帮你做了，但**除法原理不变**
+- M0 无 VTOR → M4 有 VTOR — 多了一个寄存器，但**向量表概念完全一致**
+
+> **学会 M0，你就学会了 ARM 世界最难的版本。** 没有硬件除法器、没有位域指令、没有 MPU——你必须自己实现一切。这恰恰让你理解了底层每一件事是如何工作的。往上走，那些"方便指令"只是锦上添花。
 
 ---
 
