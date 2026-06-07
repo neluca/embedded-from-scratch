@@ -35,9 +35,11 @@ lesson_07_freertos/
 ## 构建与运行
 
 ```bash
-# 确保已克隆 FreeRTOS 内核
-git clone --depth 1 --branch V11.1.0 \
-    https://github.com/FreeRTOS/FreeRTOS-Kernel.git lesson_07_freertos/FreeRTOS-Kernel
+# FreeRTOS 内核作为 git submodule 管理
+# 克隆项目时使用 --recurse-submodules 自动获取：
+#   git clone --recurse-submodules https://github.com/neluca/embedded-from-scratch.git
+# 如果已克隆但缺少子模块：
+#   git submodule update --init --recursive
 
 # 构建
 cmake -B build/Debug -S . -DCMAKE_TOOLCHAIN_FILE=../cmake/arm-none-eabi-gcc.cmake
