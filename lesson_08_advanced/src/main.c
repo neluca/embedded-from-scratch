@@ -254,7 +254,7 @@ int main(void)
     demo_learning_summary();
 
     sh_write0("==============================================\n");
-    sh_write0("  All 9 lessons complete!\n");
+    sh_write0("  All lessons complete!\n");
     sh_write0("  You now have the foundation for embedded\n");
     sh_write0("  development on ARM Cortex-M microcontrollers.\n");
     sh_write0("==============================================\n\n");

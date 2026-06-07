@@ -1,7 +1,7 @@
 # ==============================================================================
-# CI: Build all ARM Cortex-M0 embedded learning lessons
+# CI: Build and test all ARM Cortex-M0 embedded learning lessons
 # ==============================================================================
-name: Build
+name: Build & Test
 
 on:
   push:
@@ -11,10 +11,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  # --------------------------------------------------------------------------
+  # Stage 1: Build all lessons
+  # --------------------------------------------------------------------------
   build:
-    name: Build
+    name: Build All Lessons
     runs-on: ubuntu-24.04
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,16 +33,13 @@ jobs:
         with:
           release: '13.3.Rel1'
 
-      - name: Verify ARM GCC
-        run: arm-none-eabi-gcc --version
-
-      - name: Configure (Debug)
+      - name: Configure
         run: >
           cmake -B build -S .
           -DCMAKE_TOOLCHAIN_FILE=cmake/arm-none-eabi-gcc.cmake
           -DCMAKE_BUILD_TYPE=Debug -G Ninja
 
-      - name: Build (Debug)
+      - name: Build
         run: cmake --build build
 
       - name: Show Size
@@ -50,3 +49,159 @@ jobs:
             echo "--- $(basename $f) ---"
             arm-none-eabi-size "$f"
           done
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/
+          retention-days: 1
+
+  # --------------------------------------------------------------------------
+  # Stage 2: Test each lesson in QEMU (depends on build)
+  # --------------------------------------------------------------------------
+  test:
+    name: QEMU Test
+    runs-on: ubuntu-24.04
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: build
+
+      - name: Install QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-arm
+
+      - name: Verify QEMU
+        run: qemu-system-arm --version
+
+      # --- Lesson 1: Bare Metal ---
+      - name: Test Lesson 1 — Bare Metal
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_01_bare_metal/lesson_01_bare_metal.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Hello Embedded World" && echo "PASS: L1" || { echo "FAIL: L1"; exit 1; }
+
+      # --- Lesson 2: Assembly (05_exercises) ---
+      - name: Test Lesson 2 — Assembly
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_02_assembly/05_exercises.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Exercise 05 complete" && echo "PASS: L2" || { echo "FAIL: L2"; exit 1; }
+
+      # --- Lesson 3: C + Assembly ---
+      - name: Test Lesson 3 — C/ASM Integration
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_03_c_asm_integration/lesson_03_c_asm_integration.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 3 complete" && echo "PASS: L3" || { echo "FAIL: L3"; exit 1; }
+
+      # --- Lesson 4: Exceptions & Interrupts ---
+      - name: Test Lesson 4 — Exceptions
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_04_exceptions_interrupts/lesson_04_exceptions_interrupts.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 4 complete" && echo "PASS: L4" || { echo "FAIL: L4"; exit 1; }
+
+      # --- Lesson 5: Peripherals ---
+      - name: Test Lesson 5 — Peripherals
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_05_peripherals/lesson_05_peripherals.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 5 complete" && echo "PASS: L5" || { echo "FAIL: L5"; exit 1; }
+
+      # --- Lesson 6: newlib ---
+      - name: Test Lesson 6 — C Standard Library
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_06_newlib/lesson_06_newlib.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 6 complete" && echo "PASS: L6" || { echo "FAIL: L6"; exit 1; }
+
+      # --- Lesson 7: FreeRTOS (build-only verification) ---
+      - name: Test Lesson 7 — FreeRTOS (build-only)
+        run: |
+          echo "Lesson 7: FreeRTOS — build verified, QEMU run skipped."
+          echo "Reason: QEMU microbit does not deliver SysTick interrupts."
+          echo "FreeRTOS scheduler cannot run without SysTick."
+          test -f build/lesson_07_freertos/lesson_07_freertos.elf && echo "PASS: L7 (ELF exists)" || { echo "FAIL: L7 ELF missing"; exit 1; }
+
+      # --- Lesson 8: Advanced ---
+      - name: Test Lesson 8 — Advanced
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_08_advanced/lesson_08_advanced.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "All.*lessons complete" && echo "PASS: L8" || { echo "FAIL: L8"; exit 1; }
+
+      # --- Lesson 9: Bootloader ---
+      - name: Test Lesson 9 — Bootloader + App
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_09_bootloader/bootloader.elf \
+            -device loader,file=build/lesson_09_bootloader/app.bin,addr=0x00002000 \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Application Complete" && echo "PASS: L9" || { echo "FAIL: L9"; exit 1; }
+
+      # --- Lesson 10: Watchdog ---
+      - name: Test Lesson 10 — Watchdog
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_10_watchdog/lesson_10_watchdog.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 10 complete" && echo "PASS: L10" || { echo "FAIL: L10"; exit 1; }
+
+      # --- Lesson 11: Error Handling ---
+      - name: Test Lesson 11 — Error Handling
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_11_error_handling/lesson_11_error_handling.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 11 complete" && echo "PASS: L11" || { echo "FAIL: L11"; exit 1; }
+
+      # --- Lesson 12: Data Structures ---
+      - name: Test Lesson 12 — Data Structures
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_12_patterns/lesson_12_patterns.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 12 complete" && echo "PASS: L12" || { echo "FAIL: L12"; exit 1; }
+
+      # --- Lesson 13: Interrupt Priority ---
+      - name: Test Lesson 13 — Interrupt Priority
+        run: |
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_13_interrupt_priority/lesson_13_interrupt_priority.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 13 complete" && echo "PASS: L13" || { echo "FAIL: L13"; exit 1; }
+
+      - name: Summary
+        run: |
+          echo "========================================="
+          echo "  All QEMU tests completed."
+          echo "  L7 (FreeRTOS): Build verified, QEMU skipped."
+          echo "========================================="
