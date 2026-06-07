@@ -33,6 +33,9 @@
 #include "task.h"
 #include <stdint.h>
 
+/* FreeRTOS port tick handler (defined in port.c, in vector table) */
+extern void SysTick_Handler(void);
+
 /* --------------------------------------------------------------------------
  * 任务函数声明
  * -------------------------------------------------------------------------- */
@@ -89,13 +92,51 @@ void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
 /* --------------------------------------------------------------------------
  * vApplicationIdleHook -- 空闲钩子 (系统空闲时调用)
  * -------------------------------------------------------------------------- */
+/*
+ * =========================================================================
+ * QEMU SysTick 解决方案 — COUNTFLAG 轮询
+ * =========================================================================
+ *
+ * QEMU microbit 模型的 SysTick 中断不触发 (NVIC 时钟树配置缺陷).
+ * 但 SysTick 计数器本身是运行的, COUNTFLAG 在计数器到 0 时会置位.
+ *
+ * 解决方案: 在空闲钩子中轮询 COUNTFLAG, 模拟 SysTick ISR 的行为.
+ * FreeRTOS 的 xPortSysTickHandler() 会递增 tick 计数并检查是否需要
+ * 任务切换. 当所有任务都阻塞时 (vTaskDelay / xQueueReceive timeout),
+ * 空闲任务运行 → 轮询 COUNTFLAG → tick 递增 → 任务到期被唤醒.
+ *
+ * 副作用: 只有在 CPU 空闲时 tick 才更新. 对演示任务 (全部使用
+ * vTaskDelay 阻塞) 来说这不是问题. 对真实硬件, 应使用真正的
+ * SysTick 中断 (去掉下方的 TICKINT 清除操作).
+ */
 void vApplicationIdleHook(void)
 {
-    /* 在真实硬件上, 这里可以:
-     *   - 进入低功耗模式 (WFI)
-     *   - 执行后台诊断
-     *   - 更新看门狗
-     * 目前在 QEMU 中什么都不做 */
+    /* SysTick CSR = 0xE000E010
+     * bit0:  ENABLE     — 使能计数器
+     * bit1:  TICKINT    — 中断使能 (QEMU bug: 不触发)
+     * bit2:  CLKSOURCE  — 时钟源 (1=处理器时钟)
+     * bit16: COUNTFLAG  — 计数器到过 0 (读 CSR 自动清零)
+     *
+     * 首次进入时: 清除 TICKINT (改用轮询)
+     */
+    static int first_call = 1;
+    if (first_call)
+    {
+        first_call = 0;
+        volatile uint32_t *syst_csr = (volatile uint32_t *)0xE000E010;
+        *syst_csr &= ~(1U << 1); /* 清除 TICKINT, 改为 COUNTFLAG 轮询 */
+    }
+
+    /* 轮询 COUNTFLAG: 如果计数器到过 0, 手动调用 tick handler */
+    volatile uint32_t *syst_csr = (volatile uint32_t *)0xE000E010;
+    if (*syst_csr & (1U << 16))
+    {
+        /* 读 CSR 会自动清除 COUNTFLAG.
+         * SysTick_Handler() (port.c:814) 调用 xTaskIncrementTick(),
+         * 递增 tick 计数器, 检查是否有任务需要唤醒,
+         * 如有则触发 PendSV 上下文切换. */
+        SysTick_Handler();
+    }
 }
 
 /* --------------------------------------------------------------------------

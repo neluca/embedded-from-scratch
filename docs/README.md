@@ -20,6 +20,7 @@
 | 9 | [Bootloader 设计指南](08_bootloader_design.md) | Flash 分区、跳转机制、固件验证、故障安全更新、M0 VTOR 限制 | 30 min |
 | 10 | [I2C & SPI 通信指南](09_i2c_spi_communication.md) | I2C/SPI 物理层、协议帧、nRF51 TWI/SPI 外设、驱动框架 | 35 min |
 | 11 | [ADC 模数转换指南](10_adc_analog.md) | 采样原理、nRF51 ADC 外设、过采样、降噪、实际应用场景 | 30 min |
+| 12 | [QEMU 限制详解](11_qemu_limitations.md) | SysTick/PendSV 缺陷根因分析、COUNTFLAG 轮询方案、修复选项 | 25 min |
 
 ---
 

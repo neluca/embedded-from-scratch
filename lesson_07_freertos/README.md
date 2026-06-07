@@ -145,12 +145,22 @@ sequenceDiagram
 
 > 如果直接在高优先级的 SysTick 中做上下文切换，会延迟其他同等优先级的中断。
 
-### QEMU 限制
+### QEMU 限制与解决方案
 
-- `vTaskStartScheduler()` 成功执行
-- 队列和任务正确创建
-- **SysTick 中断不触发** → 调度器不运转 → 任务卡在 `vTaskDelay`
-- 代码逻辑对真实硬件完全正确
+QEMU microbit 模型有两个已知缺陷影响 FreeRTOS 运行：
+
+| 缺陷 | 影响 | 状态 |
+|------|------|------|
+| SysTick 中断不触发 | 调度器无时钟源 | COUNTFLAG 轮询可替代 (见 idle hook) |
+| PendSV 触发 HardFault | 任务无法切换 | 协作式调度可规避 (`configUSE_PREEMPTION=0`) |
+
+**本课程在 `vApplicationIdleHook()` 中实现了 COUNTFLAG 轮询**
+作为教学示例，展示如何在 QEMU 限制下理解 FreeRTOS tick 机制。
+
+详细分析见 [QEMU 限制详解](../docs/11_qemu_limitations.md)。
+
+> 在真实 BBC micro:bit 硬件上，SysTick 和 PendSV 完全正常。
+> 代码无需修改即可在真实硬件上运行抢占式 FreeRTOS。
 
 ## 相关文档
 
