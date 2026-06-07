@@ -146,7 +146,7 @@ embedded-from-scratch/
 │   ├── run_qemu.sh                # QEMU 运行脚本
 │   └── debug.gdb                  # GDB 调试脚本
 ├── docs/                          # 参考文档（工具链、ELF、汇编、FreeRTOS...）
-├── lesson_01_bare_metal/           # 12 个学习阶段
+├── lesson_01_bare_metal/           # 13 个学习阶段
 ├── lesson_02_assembly/
 ├── lesson_03_c_asm_integration/
 ├── lesson_04_exceptions_interrupts/
