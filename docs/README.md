@@ -18,6 +18,8 @@
 | 7 | [newlib-nano 指南](04_newlib_nano.md) | syscalls、printf/malloc 调用链、空间优化、堆管理 | 25 min |
 | 8 | [FreeRTOS 指南](05_freertos.md) | 任务、调度器、PendSV 上下文切换、内存预算、API 速查 | 40 min |
 | 9 | [Bootloader 设计指南](08_bootloader_design.md) | Flash 分区、跳转机制、固件验证、故障安全更新、M0 VTOR 限制 | 30 min |
+| 10 | [I2C & SPI 通信指南](09_i2c_spi_communication.md) | I2C/SPI 物理层、协议帧、nRF51 TWI/SPI 外设、驱动框架 | 35 min |
+| 11 | [ADC 模数转换指南](10_adc_analog.md) | 采样原理、nRF51 ADC 外设、过采样、降噪、实际应用场景 | 30 min |
 
 ---
 
@@ -37,6 +39,7 @@
 | Lesson 10 | [README](../lesson_10_watchdog/README.md) | WDT 看门狗与系统可靠性 | 架构详解 (WDT 基地址) |
 | Lesson 11 | [README](../lesson_11_error_handling/README.md) | 错误处理与防御性编程 | Bootloader 指南 (CRC 验证) |
 | Lesson 12 | [README](../lesson_12_patterns/README.md) | 数据结构与通用设计模式 | — |
+| Lesson 13 | [README](../lesson_13_interrupt_priority/README.md) | 中断优先级与抢占实战 | 架构详解 (NVIC/抢占) |
 
 ---
 

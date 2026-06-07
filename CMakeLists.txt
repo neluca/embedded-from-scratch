@@ -55,5 +55,6 @@ add_subdirectory(lesson_09_bootloader)
 add_subdirectory(lesson_10_watchdog)
 add_subdirectory(lesson_11_error_handling)
 add_subdirectory(lesson_12_patterns)
+add_subdirectory(lesson_13_interrupt_priority)
 
 message(STATUS "All lessons configured. Build with: cmake --build ${CMAKE_BINARY_DIR}")

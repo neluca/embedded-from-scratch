@@ -92,7 +92,7 @@ M0 上学到的**每一条原理**都可以直接用于更大的 ARM 芯片：
 
 ```mermaid
 flowchart LR
-    L1["Lesson 1<br>裸机"] --> L2["Lesson 2<br>ARMv6-M"] --> L3["Lesson 3<br>C+汇编"] --> L4["Lesson 4<br>异常/中断"] --> L5["Lesson 5<br>外设驱动"] --> L6["Lesson 6<br>C标准库"] --> L7["Lesson 7<br>FreeRTOS"] --> L8["Lesson 8<br>高级主题"] --> L9["Lesson 9<br>Bootloader"] --> L10["Lesson 10<br>看门狗"] --> L11["Lesson 11<br>错误处理"] --> L12["Lesson 12<br>数据结构"]
+    L1["Lesson 1<br>裸机"] --> L2["Lesson 2<br>ARMv6-M"] --> L3["Lesson 3<br>C+汇编"] --> L4["Lesson 4<br>异常/中断"] --> L5["Lesson 5<br>外设驱动"] --> L6["Lesson 6<br>C标准库"] --> L7["Lesson 7<br>FreeRTOS"] --> L8["Lesson 8<br>高级主题"] --> L9["Lesson 9<br>Bootloader"] --> L10["Lesson 10<br>看门狗"] --> L11["Lesson 11<br>错误处理"] --> L12["Lesson 12<br>数据结构"] --> L13["Lesson 13<br>中断优先级"]
 ```
 
 | 阶段 | 你会学到 |
@@ -109,6 +109,7 @@ flowchart LR
 | **[Lesson 10](lesson_10_watchdog/)** | WDT 看门狗、复位原因诊断、多点喂狗策略 |
 | **[Lesson 11](lesson_11_error_handling/)** | 断言、栈溢出检测、错误码、CRC校验、故障日志 |
 | **[Lesson 12](lesson_12_patterns/)** | 环形缓冲、状态机、位操作、COBS帧编码 |
+| **[Lesson 13](lesson_13_interrupt_priority/)** | NVIC 优先级、中断抢占、临界区、优先级反转 |
 
 每个阶段有独立的 `README.md` 包含详细说明。
 
@@ -156,7 +157,8 @@ embedded-from-scratch/
 ├── lesson_09_bootloader/
 ├── lesson_10_watchdog/
 ├── lesson_11_error_handling/
-├── lesson_12_patterns/             # 12 个学习阶段
+├── lesson_12_patterns/
+├── lesson_13_interrupt_priority/  # 13 个学习阶段
 ├── CMakeLists.txt                 # 根构建文件
 ├── .clang-format                  # 代码格式化规则
 ├── LICENSE                        # MIT
