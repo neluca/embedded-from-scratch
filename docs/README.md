@@ -27,6 +27,7 @@
 | Lesson 7 | [README](../lesson_07_freertos/README.md) | FreeRTOS 多任务系统 |
 | Lesson 8 | [README](../lesson_08_advanced/README.md) | 高级主题与总结 |
 | Lesson 9 | [README](../lesson_09_bootloader/README.md) | Bootloader + Application |
+| Lesson 10 | [README](../lesson_10_watchdog/README.md) | WDT 看门狗与系统可靠性 |
 
 ---
 

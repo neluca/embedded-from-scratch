@@ -52,5 +52,6 @@ if(NOT SKIP_LESSON_07)
 endif()
 add_subdirectory(lesson_08_advanced)
 add_subdirectory(lesson_09_bootloader)
+add_subdirectory(lesson_10_watchdog)
 
 message(STATUS "All lessons configured. Build with: cmake --build ${CMAKE_BINARY_DIR}")

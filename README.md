@@ -54,7 +54,7 @@ export ARM_GCC_PREFIX=D:/Bin/arm/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eab
 
 ```mermaid
 flowchart LR
-    L1["Lesson 1<br>裸机"] --> L2["Lesson 2<br>ARMv6-M"] --> L3["Lesson 3<br>C+汇编"] --> L4["Lesson 4<br>异常/中断"] --> L5["Lesson 5<br>外设驱动"] --> L6["Lesson 6<br>C标准库"] --> L7["Lesson 7<br>FreeRTOS"] --> L8["Lesson 8<br>高级主题"] --> L9["Lesson 9<br>Bootloader"]
+    L1["Lesson 1<br>裸机"] --> L2["Lesson 2<br>ARMv6-M"] --> L3["Lesson 3<br>C+汇编"] --> L4["Lesson 4<br>异常/中断"] --> L5["Lesson 5<br>外设驱动"] --> L6["Lesson 6<br>C标准库"] --> L7["Lesson 7<br>FreeRTOS"] --> L8["Lesson 8<br>高级主题"] --> L9["Lesson 9<br>Bootloader"] --> L10["Lesson 10<br>看门狗"]
 ```
 
 | 阶段 | 你会学到 |
@@ -68,6 +68,7 @@ flowchart LR
 | **[Lesson 7](lesson_07_freertos/)** | 多任务调度、队列通信、上下文切换 |
 | **[Lesson 8](lesson_08_advanced/)** | GDB 调试、优化分析、低功耗、生产部署 |
 | **[Lesson 9](lesson_09_bootloader/)** | Bootloader + Application 双固件启动 |
+| **[Lesson 10](lesson_10_watchdog/)** | WDT 看门狗、复位原因诊断、多点喂狗策略 |
 
 每个阶段有独立的 `README.md` 包含详细说明。
 
@@ -104,7 +105,7 @@ embedded-from-scratch/
 │   ├── run_qemu.sh                # QEMU 运行脚本
 │   └── debug.gdb                  # GDB 调试脚本
 ├── docs/                          # 参考文档（工具链、ELF、汇编、FreeRTOS...）
-├── lesson_01_bare_metal/           # 9 个学习阶段
+├── lesson_01_bare_metal/           # 10 个学习阶段
 ├── lesson_02_assembly/
 ├── lesson_03_c_asm_integration/
 ├── lesson_04_exceptions_interrupts/
@@ -113,6 +114,7 @@ embedded-from-scratch/
 ├── lesson_07_freertos/
 ├── lesson_08_advanced/
 ├── lesson_09_bootloader/
+├── lesson_10_watchdog/             # 10 个学习阶段
 ├── CMakeLists.txt                 # 根构建文件
 ├── .clang-format                  # 代码格式化规则
 ├── LICENSE                        # MIT
