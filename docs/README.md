@@ -29,6 +29,7 @@
 | Lesson 9 | [README](../lesson_09_bootloader/README.md) | Bootloader + Application |
 | Lesson 10 | [README](../lesson_10_watchdog/README.md) | WDT 看门狗与系统可靠性 |
 | Lesson 11 | [README](../lesson_11_error_handling/README.md) | 错误处理与防御性编程 |
+| Lesson 12 | [README](../lesson_12_patterns/README.md) | 数据结构与通用设计模式 |
 
 ---
 
