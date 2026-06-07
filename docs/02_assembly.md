@@ -2,7 +2,7 @@
 
 ## 架构概览
 
-Cortex-M0 使用 **ARMv6-M** 架构，仅支持 **Thumb-1** 指令集（约 60 条指令，16 位编码为主）。
+Cortex-M0 使用 **ARMv6-M** 架构，仅支持 **Thumb-1** 指令集（56 条指令，16 位编码为主）。
 
 > **Thumb-1 vs Thumb-2**: Thumb-2（ARMv7-M，如 Cortex-M3/M4）新增了约 100 条 32 位指令。M0 的指令集是它的子集。
 
