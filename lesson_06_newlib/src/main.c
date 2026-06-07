@@ -176,6 +176,9 @@ static void demo_math(void)
     printf("\n");
 }
 
+/* Forward declaration for qsort/bsearch comparator */
+static int compare_ints(const void *a, const void *b);
+
 /* --------------------------------------------------------------------------
  * 演示 4: 字符串和内存操作 (stdlib.h, string.h)
  * -------------------------------------------------------------------------- */
@@ -192,14 +195,8 @@ static void demo_string(void)
     long        hex_val = strtol(hex_str, NULL, 16);
     printf("    strtol('%s', 16) = 0x%lX\n", hex_str, hex_val);
 
-    /* qsort */
+    /* qsort (compare_ints is defined at file scope below) */
     int arr[] = {5, 2, 8, 1, 9, 3};
-
-    /* 比较函数 (注意: M0 上函数指针调用有效但稍慢) */
-    int compare_ints(const void *a, const void *b)
-    {
-        return (*(const int *)a - *(const int *)b);
-    }
     qsort(arr, 6, sizeof(int), compare_ints);
 
     printf("    qsort([5,2,8,1,9,3]) = [%d,%d,%d,%d,%d,%d]\n",

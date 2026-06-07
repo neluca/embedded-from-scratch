@@ -186,7 +186,7 @@ static void demo_learning_summary(void)
 {
     sh_write0("[5] Learning Journey Summary\n\n");
 
-    sh_write0("    Phases completed:\n");
+    sh_write0("    Lessons completed:\n");
     sh_write0("      1. Bare-Metal Hello World (semihosting, CMake, linker)\n");
     sh_write0("      2. ARMv6-M Assembly (60+ Thumb-1 instructions)\n");
     sh_write0("      3. C + Assembly Integration (AAPCS, inline asm)\n");
@@ -194,7 +194,8 @@ static void demo_learning_summary(void)
     sh_write0("      5. Peripheral Drivers (UART, GPIO, Timer - nRF51)\n");
     sh_write0("      6. C Standard Library (newlib-nano, malloc, printf)\n");
     sh_write0("      7. FreeRTOS Kernel (tasks, queues, scheduler)\n");
-    sh_write0("      8. Advanced Topics (GDB, optimization, production)\n\n");
+    sh_write0("      8. Advanced Topics (GDB, optimization, production)\n");
+    sh_write0("      9. Bootloader + Application (dual-firmware)\n\n");
 
     sh_write0("    Core skills gained:\n");
     sh_write0("      - ARM Cortex-M0 architecture (ARMv6-M)\n");
@@ -253,7 +254,7 @@ int main(void)
     demo_learning_summary();
 
     sh_write0("==============================================\n");
-    sh_write0("  All 8 phases complete!\n");
+    sh_write0("  All 9 lessons complete!\n");
     sh_write0("  You now have the foundation for embedded\n");
     sh_write0("  development on ARM Cortex-M microcontrollers.\n");
     sh_write0("==============================================\n\n");

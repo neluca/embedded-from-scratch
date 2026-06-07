@@ -2,7 +2,7 @@
 
 从零开始学习 ARM Cortex-M0 嵌入式开发 — 使用 QEMU 模拟 BBC micro:bit，无需物理硬件。
 
-[![Build](https://github.com/embedded-learn/embedded-learn/actions/workflows/build.yml/badge.svg)](https://github.com/embedded-learn/embedded-learn/actions/workflows/build.yml)
+[![Build](https://github.com/neluca/embedded-from-scratch/actions/workflows/build.yml/badge.svg)](https://github.com/neluca/embedded-from-scratch/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ---
@@ -21,7 +21,7 @@
 
 ```bash
 # 克隆（含 FreeRTOS 子模块）
-git clone --recurse-submodules https://github.com/embedded-learn/embedded-learn.git
+git clone --recurse-submodules https://github.com/neluca/embedded-from-scratch.git
 cd embedded-learn
 
 # 构建所有阶段
@@ -93,9 +93,12 @@ flowchart LR
 ## 项目结构
 
 ```
-embedded-learn/
+embedded-from-scratch/
+├── .github/workflows/             # CI/CD 自动化
+│   └── build.yml
 ├── cmake/
-│   └── arm-none-eabi-gcc.cmake    # CMake 工具链文件
+│   ├── arm-none-eabi-gcc.cmake    # CMake 工具链文件
+│   └── qemu_run.cmake             # QEMU 运行目标
 ├── scripts/
 │   ├── build.sh                   # 构建脚本
 │   ├── run_qemu.sh                # QEMU 运行脚本

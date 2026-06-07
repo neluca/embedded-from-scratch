@@ -27,7 +27,7 @@ lesson_08_advanced/
 | 优化分析 | -O0 vs -Os vs -O2 对 ARMv6-M 代码的影响 |
 | 低功耗 | WFI/WFE 指令、Sleep-on-Exit、FreeRTOS Tickless Idle |
 | 迁移指南 | QEMU → 真实 microbit 的步骤和差异 |
-| 学习总结 | 8 个阶段的核心技能回顾 |
+| 学习总结 | 9 个阶段的核心技能回顾 |
 
 ## 调试流程
 

@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(lesson_07_freertos
     LANGUAGES C ASM
-    DESCRIPTION "Phase 7: FreeRTOS on Cortex-M0+"
+    DESCRIPTION "Lesson 7: FreeRTOS on Cortex-M0"
 )
 
 set(SRC_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/src)

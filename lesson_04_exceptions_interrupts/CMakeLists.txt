@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(lesson_04_exceptions_interrupts
     LANGUAGES C ASM
-    DESCRIPTION "Phase 4: Exception & Interrupt Handling"
+    DESCRIPTION "Lesson 4: Exception & Interrupt Handling"
 )
 
 set(SRC_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/src)

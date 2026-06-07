@@ -26,14 +26,9 @@
 | Lesson 6 | [README](../lesson_06_newlib/README.md) | C 标准库集成 |
 | Lesson 7 | [README](../lesson_07_freertos/README.md) | FreeRTOS 多任务系统 |
 | Lesson 8 | [README](../lesson_08_advanced/README.md) | 高级主题与总结 |
+| Lesson 9 | [README](../lesson_09_bootloader/README.md) | Bootloader + Application |
 
 ---
-
-## 项目相关
-
-| 文档 | 内容 |
-|------|------|
-| [开源发布计划](OPEN_SOURCE_PLAN.md) | 仓库名、发布策略、每课 commit 模板、Release 模板 |
 
 ## 外部参考资源
 

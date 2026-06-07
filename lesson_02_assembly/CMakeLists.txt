@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(lesson_02_assembly
     LANGUAGES C ASM
-    DESCRIPTION "Phase 2: ARM Cortex-M0+ Assembly Language"
+    DESCRIPTION "Lesson 2: ARM Cortex-M0 Assembly Language"
 )
 
 set(LINKER_DIR ${CMAKE_CURRENT_SOURCE_DIR}/linker)
@@ -30,7 +30,6 @@ foreach(ASM_FILE ${ASM_FILES})
 
     # 汇编编译选项 (.S 文件自动启用预处理)
     target_compile_options(${EXE_NAME} PRIVATE
-        -nostdlib
         -ffreestanding
     )
 

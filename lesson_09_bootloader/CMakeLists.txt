@@ -11,7 +11,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(lesson_09_bootloader
     LANGUAGES C ASM
-    DESCRIPTION "Phase 9: Bootloader & Application"
+    DESCRIPTION "Lesson 9: Bootloader & Application"
 )
 
 set(BOOT_DIR    ${CMAKE_CURRENT_SOURCE_DIR}/bootloader)

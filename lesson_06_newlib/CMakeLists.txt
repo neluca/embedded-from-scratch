@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(lesson_06_newlib
     LANGUAGES C ASM
-    DESCRIPTION "Phase 6: C Standard Library (newlib-nano)"
+    DESCRIPTION "Lesson 6: C Standard Library (newlib-nano)"
 )
 
 set(SRC_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/src)

@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(lesson_05_peripherals
     LANGUAGES C ASM
-    DESCRIPTION "Phase 5: Peripherals & Hardware Programming"
+    DESCRIPTION "Lesson 5: Peripherals & Hardware Programming"
 )
 
 set(SRC_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/src)

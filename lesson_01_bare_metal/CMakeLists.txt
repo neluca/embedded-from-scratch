@@ -15,7 +15,7 @@ cmake_minimum_required(VERSION 3.20)
 # 项目名称
 project(lesson_01_bare_metal
     LANGUAGES C ASM
-    DESCRIPTION "Phase 1: ARM Cortex-M0+ Bare-Metal Hello World"
+    DESCRIPTION "Lesson 1: ARM Cortex-M0 Bare-Metal Hello World"
 )
 
 # ---------------------------------------------------------------------------
@@ -51,10 +51,11 @@ target_link_options(${PROJECT_NAME} PRIVATE
 # M0+ 无硬件除法器, 使用 / 或 % 运算符需要 __aeabi_uidiv 系列函数
 target_link_libraries(${PROJECT_NAME} PRIVATE gcc)
 
-# 编译选项: 此阶段完全不使用标准库头文件
+# 编译选项
+# -ffreestanding: 独立环境 (无宿主操作系统)，不假定标准库函数存在
+# 注意: -nostdlib 是链接选项，不应放在编译选项中
 target_compile_options(${PROJECT_NAME} PRIVATE
-    -nostdlib
-    -ffreestanding     # 独立环境 (无宿主操作系统)
+    -ffreestanding
 )
 
 # 包含路径
