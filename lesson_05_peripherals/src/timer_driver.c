@@ -38,8 +38,8 @@ void timer_init(uint32_t prescaler, uint32_t bitmode, uint32_t period)
     TIMER0_TASK_CLEAR = 1;
 
     /* 3. 配置模式、位宽、预分频 */
-    tmr->MODE      = TIMER_MODE_TIMER;
-    tmr->BITMODE   = bitmode;
+    tmr->MODE = TIMER_MODE_TIMER;
+    tmr->BITMODE = bitmode;
     tmr->PRESCALER = prescaler;
 
     /* 4. 设置比较值 */
@@ -78,7 +78,7 @@ uint32_t timer_read(void)
 {
     /* 触发 CAPTURE task (地址 = 基址 + 0x40 + n*4) */
     volatile uint32_t *capture_task = (volatile uint32_t *)(0x40008044);
-    *capture_task                   = 1;
+    *capture_task = 1;
     return TIMER0_BASE->CC[1]; /* CC[1] 现在含有捕获的计数值 */
 }
 

@@ -63,7 +63,7 @@ static int strlen_simple(const char *s)
  * -------------------------------------------------------------------------- */
 #define CMD_BUF_SIZE 32
 static char cmd_buf[CMD_BUF_SIZE];
-static int  cmd_pos = 0;
+static int cmd_pos = 0;
 
 /* --------------------------------------------------------------------------
  * simulate_led -- 模拟 microbit 的 5x5 LED 阵列
@@ -139,8 +139,7 @@ static void process_command(const char *cmd)
         uart_putc(gpio_pin_read(MICROBIT_PIN_BUTTON_B) ? '1' : '0');
         uart_puts("\n");
     }
-    else if (cmd[0] == 'd' && cmd[1] == 'e' && cmd[2] == 'l' && cmd[3] == 'a'
-             && cmd[4] == 'y')
+    else if (cmd[0] == 'd' && cmd[1] == 'e' && cmd[2] == 'l' && cmd[3] == 'a' && cmd[4] == 'y')
     {
         int ms = atoi_simple(cmd + 6);
         if (ms > 0 && ms <= 5000)

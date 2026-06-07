@@ -27,7 +27,7 @@ void task_monitor(void *pvParameters)
     sh_write0("[Monitor] Task started. Waiting for sensor data...\n");
 
     uint32_t sample_count = 0;
-    uint32_t sample_sum   = 0;
+    uint32_t sample_sum = 0;
 
     for (;;)
     {

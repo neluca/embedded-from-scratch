@@ -43,7 +43,7 @@ void task_sensor(void *pvParameters)
     sh_write0("[Sensor] Task started. Generating readings...\n");
 
     uint32_t reading_count = 0;
-    uint32_t stack_high    = 0;
+    uint32_t stack_high = 0;
 
     for (;;)
     {
@@ -68,8 +68,7 @@ void task_sensor(void *pvParameters)
          * 在这个 demo 中队列不会满 (Monitor 比 Sensor 优先级低,
          * 但 Sensor 会阻塞 300ms, Monitor 有足够时间处理)
          */
-        if (xQueueSend(g_sensor_queue, &reading, pdMS_TO_TICKS(100))
-            == pdPASS)
+        if (xQueueSend(g_sensor_queue, &reading, pdMS_TO_TICKS(100)) == pdPASS)
         {
             sh_write0("[Sensor] Reading #");
             sh_write_dec(reading_count);

@@ -50,8 +50,8 @@
 #define ICSR_PENDSTCLR (1U << 25)
 
 /* SHPR3 - System Handler Priority Register 3 */
-#define SHPR3_BASE  0xE000ED20
-#define SHPR3        ((volatile uint32_t *)(SHPR3_BASE))
+#define SHPR3_BASE        0xE000ED20
+#define SHPR3             ((volatile uint32_t *)(SHPR3_BASE))
 #define SHPR3_PRI_15_MASK (0xFFU << 24) /* SysTick priority */
 #define SHPR3_PRI_14_MASK (0xFFU << 16) /* PendSV priority */
 
@@ -60,7 +60,7 @@
  * -------------------------------------------------------------------------- */
 /* 注意: 非 static, startup.S 的 PendSV handler 需要访问 */
 volatile uint32_t g_pendsv_triggered = 0;
-volatile uint32_t g_pendsv_count     = 0;
+volatile uint32_t g_pendsv_count = 0;
 
 /* 模拟两个任务的栈 (未使用, 为 Lesson 7 做预留) */
 #define TASK_STACK_SIZE 64

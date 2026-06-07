@@ -31,7 +31,7 @@ void task_blinky(void *pvParameters)
     (void)pvParameters; /* 未使用的参数 */
 
     uint32_t blink_count = 0;
-    uint32_t stack_high  = 0;
+    uint32_t stack_high = 0;
 
     sh_write0("[Blinky] Task started.\n");
 

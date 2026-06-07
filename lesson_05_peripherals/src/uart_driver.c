@@ -51,8 +51,8 @@ void uart_init(uint32_t baud_rate, uint8_t tx_pin, uint8_t rx_pin)
  * -------------------------------------------------------------------------- */
 void uart_deinit(void)
 {
-    UART_TASK_STOPTX  = 1;
-    UART_TASK_STOPRX  = 1;
+    UART_TASK_STOPTX = 1;
+    UART_TASK_STOPRX = 1;
     UART_BASE->ENABLE = UART_ENABLE_DISABLED;
 }
 
@@ -138,7 +138,7 @@ int uart_getc(void)
 void uart_put_hex(uint32_t val)
 {
     static const char hex_chars[] = "0123456789ABCDEF";
-    char             buf[]        = "0x00000000 ";
+    char buf[] = "0x00000000 ";
     for (int i = 9; i >= 2; i--)
     {
         buf[i] = hex_chars[val & 0xF];
@@ -153,7 +153,7 @@ void uart_put_hex(uint32_t val)
 void uart_put_dec(uint32_t val)
 {
     char buf[12];
-    int  pos = sizeof(buf) - 1;
+    int pos = sizeof(buf) - 1;
     buf[pos] = '\0';
 
     if (val == 0)

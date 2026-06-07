@@ -113,8 +113,8 @@ void demo_call_asm(void)
     /* --- 优化的 memcpy --- */
     semihosting_write0("\n    [Optimized memcpy (word-aligned)]\n");
 
-    uint32_t src_buf[]   = {0xDEADBEEF, 0xCAFEBABE, 0x12345678};
-    uint32_t dst_buf[3]  = {0, 0, 0};
+    uint32_t src_buf[] = { 0xDEADBEEF, 0xCAFEBABE, 0x12345678 };
+    uint32_t dst_buf[3] = { 0, 0, 0 };
     asm_memcpy32(dst_buf, src_buf, 12);
 
     semihosting_write0("    asm_memcpy32: src[0]=");
@@ -147,7 +147,7 @@ void demo_call_asm(void)
  * ========================================================================= */
 static void semihosting_write0(const char *str)
 {
-    register int         r0 __asm__("r0") = 0x04;
+    register int r0 __asm__("r0") = 0x04;
     register const char *r1 __asm__("r1") = str;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 }
@@ -158,7 +158,7 @@ static void semihosting_write_hex(uint32_t val)
     for (int i = 9; i >= 2; i--)
     {
         uint32_t n = val & 0xF;
-        buf[i]     = n < 10 ? '0' + n : 'A' + n - 10;
+        buf[i] = n < 10 ? '0' + n : 'A' + n - 10;
         val >>= 4;
     }
     semihosting_write0(buf);
@@ -167,7 +167,7 @@ static void semihosting_write_hex(uint32_t val)
 static void semihosting_write_dec(uint32_t val)
 {
     char buf[12];
-    int  pos = sizeof(buf) - 1;
+    int pos = sizeof(buf) - 1;
     buf[pos] = '\0';
     if (val == 0)
     {

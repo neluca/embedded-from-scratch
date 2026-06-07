@@ -20,25 +20,31 @@
 /* Semihosting helpers */
 static void sh_write0(const char *s)
 {
-    register int         r0 __asm__("r0") = 0x04;
+    register int r0 __asm__("r0") = 0x04;
     register const char *r1 __asm__("r1") = s;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 }
 static void sh_write_hex(uint32_t v)
 {
     char b[] = "0x00000000\n";
-    for (int i = 9; i >= 2; i--) { uint32_t n = v & 0xF; b[i] = n < 10 ? '0' + n : 'A' + n - 10; v >>= 4; }
+    for (int i = 9; i >= 2; i--)
+    {
+        uint32_t n = v & 0xF;
+        b[i] = n < 10 ? '0' + n : 'A' + n - 10;
+        v >>= 4;
+    }
     sh_write0(b);
 }
 
 /* App 在 Flash 中的位置 */
-#define APP_START_ADDR  0x00002000
-#define APP_MAGIC_ADDR  (APP_START_ADDR + 4)  /* 向量表[1] = reset_handler 地址 */
-#define APP_MAGIC_MIN   0x00002000            /* PC 至少应该在 App 区域内 */
-#define APP_MAGIC_MAX   0x00040000            /* Flash 结束 */
+#define APP_START_ADDR 0x00002000
+#define APP_MAGIC_ADDR (APP_START_ADDR + 4)  /* 向量表[1] = reset_handler 地址 */
+#define APP_MAGIC_MIN  0x00002000            /* PC 至少应该在 App 区域内 */
+#define APP_MAGIC_MAX  0x00040000            /* Flash 结束 */
 
 /* App 向量表结构: [0]=SP, [1]=PC, [2]=NMI, ... */
-typedef struct {
+typedef struct
+{
     uint32_t sp;
     uint32_t pc;
 } app_vector_t;
@@ -62,20 +68,29 @@ int bootloader_main(void)
     sh_write_hex(app->pc);
 
     /* 验证 App 是否有效 */
-    if (app->sp < 0x20000000 || app->sp > 0x20004000) {
+    if (app->sp < 0x20000000 || app->sp > 0x20004000)
+    {
         sh_write0("ERROR: App SP out of RAM range!\n");
         sh_write0("Halted.\n");
-        while (1) {}
+        while (1)
+        {
+        }
     }
-    if (app->pc < APP_MAGIC_MIN || app->pc > APP_MAGIC_MAX) {
+    if (app->pc < APP_MAGIC_MIN || app->pc > APP_MAGIC_MAX)
+    {
         sh_write0("ERROR: App PC out of Flash range!\n");
         sh_write0("Halted.\n");
-        while (1) {}
+        while (1)
+        {
+        }
     }
-    if ((app->pc & 1) == 0) {
+    if ((app->pc & 1) == 0)
+    {
         sh_write0("ERROR: App PC bit[0]=0 (not Thumb)!\n");
         sh_write0("Halted.\n");
-        while (1) {}
+        while (1)
+        {
+        }
     }
 
     sh_write0("App validated OK.\n");
@@ -93,15 +108,16 @@ int bootloader_main(void)
     uint32_t app_sp = app->sp;
     uint32_t app_pc = app->pc;
 
-    __asm__ volatile (
+    __asm__ volatile(
         "msr MSP, %0\n"     /* SP = App stack pointer */
         "bx  %1\n"          /* PC = App reset handler */
         :
         : "r"(app_sp), "r"(app_pc)
-        : "memory"
-    );
+        : "memory");
 
     /* 不应该到达这里 */
-    while (1) {}
+    while (1)
+    {
+    }
     return 0;
 }

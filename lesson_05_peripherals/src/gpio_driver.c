@@ -24,7 +24,7 @@ void gpio_pin_init(uint8_t pin, gpio_mode_t mode)
     }
 
     gpio_regs_t *gpio = GPIO_BASE;
-    uint32_t     cnf  = PIN_CNF_INPUT_CONNECT | PIN_CNF_DRIVE_S0S1;
+    uint32_t cnf = PIN_CNF_INPUT_CONNECT | PIN_CNF_DRIVE_S0S1;
 
     switch (mode)
     {

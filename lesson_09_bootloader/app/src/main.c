@@ -15,14 +15,19 @@
 /* Semihosting helpers */
 static void sh_write0(const char *s)
 {
-    register int         r0 __asm__("r0") = 0x04;
+    register int r0 __asm__("r0") = 0x04;
     register const char *r1 __asm__("r1") = s;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 }
 static void sh_write_hex(uint32_t v)
 {
     char b[] = "0x00000000\n";
-    for (int i = 9; i >= 2; i--) { uint32_t n = v & 0xF; b[i] = n < 10 ? '0' + n : 'A' + n - 10; v >>= 4; }
+    for (int i = 9; i >= 2; i--)
+    {
+        uint32_t n = v & 0xF;
+        b[i] = n < 10 ? '0' + n : 'A' + n - 10;
+        v >>= 4;
+    }
     sh_write0(b);
 }
 
@@ -49,7 +54,8 @@ int app_main(void)
 
     /* 模拟应用工作 */
     uint32_t result = 0;
-    for (uint32_t i = 1; i <= 10; i++) {
+    for (uint32_t i = 1; i <= 10; i++)
+    {
         result += i;
     }
     sh_write0("Sum 1..10 = ");
@@ -59,10 +65,12 @@ int app_main(void)
     sh_write0("\n=== Application Complete ===\n");
 
     /* 正常退出 (semihosting) */
-    register int   r0 __asm__("r0") = 0x18;
-    register int   r1 __asm__("r1") = 0;
+    register int r0 __asm__("r0") = 0x18;
+    register int r1 __asm__("r1") = 0;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 
-    while (1) {}
+    while (1)
+    {
+    }
     return 0;
 }

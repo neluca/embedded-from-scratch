@@ -111,7 +111,7 @@ int _write(int fd, const char *buf, int count)
         for (int i = 0; i < count; i++)
         {
             /* 使用 SYS_WRITEC 输出单个字符 */
-            register int   r0 __asm__("r0") = 0x03; /* SYS_WRITEC */
+            register int r0 __asm__("r0") = 0x03; /* SYS_WRITEC */
             register char *r1 __asm__("r1") = (char *)&buf[i];
             __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
         }
@@ -144,9 +144,9 @@ int _read(int fd, char *buf, int count)
     if (fd == 0)
     {
         /* SYS_READ 参数块: [fd, buf, count] */
-        uint32_t params[3] = {0, (uint32_t)buf, (uint32_t)count};
+        uint32_t params[3] = { 0, (uint32_t)buf, (uint32_t)count };
         register int r0 __asm__("r0") = 0x06; /* SYS_READ */
-        register void *r1 __asm__("r1")       = params;
+        register void *r1 __asm__("r1") = params;
         __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
         /* 返回值: 0=EOF, >0=读取字节数, <0=错误 */
         return r0;
@@ -172,7 +172,7 @@ void _exit(int status)
 #if SEMIHOSTING_BACKEND
     /* SYS_EXIT: 通知 QEMU 程序已退出 */
     register int r0 __asm__("r0") = 0x18; /* SYS_EXIT */
-    register int *r1 __asm__("r1")       = &status;
+    register int *r1 __asm__("r1") = &status;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 #endif
 
@@ -191,7 +191,7 @@ int _close(int fd)
 {
 #if SEMIHOSTING_BACKEND
     register int r0 __asm__("r0") = 0x02; /* SYS_CLOSE */
-    register int *r1 __asm__("r1")       = &fd;
+    register int *r1 __asm__("r1") = &fd;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
     return r0;
 #endif
@@ -206,9 +206,9 @@ int _close(int fd)
 int _lseek(int fd, int offset, int whence)
 {
 #if SEMIHOSTING_BACKEND
-    uint32_t       params[3] = {(uint32_t)fd, (uint32_t)offset, (uint32_t)whence};
-    register int   r0 __asm__("r0") = 0x0A; /* SYS_SEEK (semihosting) */
-    register void *r1 __asm__("r1")       = params;
+    uint32_t params[3] = { (uint32_t)fd, (uint32_t)offset, (uint32_t)whence };
+    register int r0 __asm__("r0") = 0x0A; /* SYS_SEEK (semihosting) */
+    register void *r1 __asm__("r1") = params;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
     return r0;
 #endif
@@ -252,9 +252,9 @@ int _open(const char *path, int flags, ...)
         name_len++;
     }
 
-    uint32_t       params[3] = {(uint32_t)path, (uint32_t)flags, (uint32_t)name_len};
-    register int   r0 __asm__("r0") = 0x01; /* SYS_OPEN */
-    register void *r1 __asm__("r1")       = params;
+    uint32_t params[3] = { (uint32_t)path, (uint32_t)flags, (uint32_t)name_len };
+    register int r0 __asm__("r0") = 0x01; /* SYS_OPEN */
+    register void *r1 __asm__("r1") = params;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
     return r0;
 #endif

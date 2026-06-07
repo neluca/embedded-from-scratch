@@ -112,7 +112,7 @@ static uint32_t sum_array_index(const uint32_t *arr, uint32_t n)
 /* 模式 2: 指针递增 */
 static uint32_t sum_array_pointer(const uint32_t *arr, uint32_t n)
 {
-    uint32_t        sum = 0;
+    uint32_t sum = 0;
     const uint32_t *end = arr + n;
     while (arr < end)
     {
@@ -256,9 +256,9 @@ void demo_optimization(void)
 
     /* --- 数组访问 --- */
     semihosting_write0("\n    [Array access patterns]\n");
-    uint32_t arr[] = {10, 20, 30, 40, 50};
-    uint32_t s1    = sum_array_index(arr, 5);
-    uint32_t s2    = sum_array_pointer(arr, 5);
+    uint32_t arr[] = { 10, 20, 30, 40, 50 };
+    uint32_t s1 = sum_array_index(arr, 5);
+    uint32_t s2 = sum_array_pointer(arr, 5);
     semihosting_write0("    sum_array_index   = ");
     semihosting_write_dec(s1);
     semihosting_write0("\n");
@@ -313,7 +313,7 @@ void demo_optimization(void)
  * ========================================================================= */
 static void semihosting_write0(const char *str)
 {
-    register int         r0 __asm__("r0") = 0x04;
+    register int r0 __asm__("r0") = 0x04;
     register const char *r1 __asm__("r1") = str;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 }
@@ -324,7 +324,7 @@ static void semihosting_write_hex(uint32_t val)
     for (int i = 9; i >= 2; i--)
     {
         uint32_t n = val & 0xF;
-        buf[i]     = n < 10 ? '0' + n : 'A' + n - 10;
+        buf[i] = n < 10 ? '0' + n : 'A' + n - 10;
         val >>= 4;
     }
     semihosting_write0(buf);
@@ -333,7 +333,7 @@ static void semihosting_write_hex(uint32_t val)
 static void semihosting_write_dec(uint32_t val)
 {
     char buf[12];
-    int  pos = sizeof(buf) - 1;
+    int pos = sizeof(buf) - 1;
     buf[pos] = '\0';
     if (val == 0)
     {

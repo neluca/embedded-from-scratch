@@ -172,8 +172,7 @@ static void compiler_barrier(void)
  */
 
 /* 用内联汇编实现饱和加法 (saturating add) */
-__attribute__((unused))
-static uint32_t saturating_add(uint32_t a, uint32_t b)
+__attribute__((unused)) static uint32_t saturating_add(uint32_t a, uint32_t b)
 {
     /* saturating_add via inline asm
      * Thumb-1 2-operand form: ADDS Rd, Rm  (Rd = Rd + Rm) */
@@ -189,16 +188,14 @@ static uint32_t saturating_add(uint32_t a, uint32_t b)
         "1:\n"
         : "+r"(ra)
         : "r"(rb)
-        : "cc"
-    );
+        : "cc");
     return ra;
 }
 
 /* 用内联汇编实现 64 位加法 (演示多寄存器输出)
  * 注意: 此函数未在 demo 中调用, 仅作为内联 asm 多寄存器输出示例保留
  */
-__attribute__((unused))
-static uint64_t add64(uint64_t x, uint64_t y)
+__attribute__((unused)) static uint64_t add64(uint64_t x, uint64_t y)
 {
     /* M0 上 64 位加法: 编译器自动生成正确的 Thumb-1 序列:
      *   adds r0, r0, r2    @ lo += lo_y
@@ -222,8 +219,7 @@ static uint32_t read_cpuid(void)
     __asm__ volatile(
         "ldr %0, [%1, #0]\n"
         : "=r"(cpuid)
-        : "r"(0xE000ED00)
-    );
+        : "r"(0xE000ED00));
     return cpuid;
 }
 
@@ -296,7 +292,7 @@ void demo_inline_asm(void)
  * ========================================================================= */
 static void semihosting_write0(const char *str)
 {
-    register int         r0 __asm__("r0") = 0x04;
+    register int r0 __asm__("r0") = 0x04;
     register const char *r1 __asm__("r1") = str;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 }
@@ -307,7 +303,7 @@ static void semihosting_write_hex(uint32_t val)
     for (int i = 9; i >= 2; i--)
     {
         uint32_t n = val & 0xF;
-        buf[i]     = n < 10 ? '0' + n : 'A' + n - 10;
+        buf[i] = n < 10 ? '0' + n : 'A' + n - 10;
         val >>= 4;
     }
     semihosting_write0(buf);

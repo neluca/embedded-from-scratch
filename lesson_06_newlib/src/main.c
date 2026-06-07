@@ -110,7 +110,7 @@ static void demo_malloc(void)
     /* 边界测试: 尝试分配过多内存 */
     printf("\n    Testing heap exhaustion:\n");
     uint32_t huge_size = 16 * 1024; /* microbit only has 16KB total RAM! */
-    void    *huge      = malloc(huge_size);
+    void *huge = malloc(huge_size);
     if (huge == NULL)
     {
         printf("    malloc(%lu) = NULL (expected, heap too small)\n",
@@ -188,15 +188,15 @@ static void demo_string(void)
 
     /* strtol / strtoul */
     const char *num_str = "12345";
-    long        val     = strtol(num_str, NULL, 10);
+    long val = strtol(num_str, NULL, 10);
     printf("    strtol('%s') = %ld\n", num_str, val);
 
     const char *hex_str = "0xDEAD";
-    long        hex_val = strtol(hex_str, NULL, 16);
+    long hex_val = strtol(hex_str, NULL, 16);
     printf("    strtol('%s', 16) = 0x%lX\n", hex_str, hex_val);
 
     /* qsort (compare_ints is defined at file scope below) */
-    int arr[] = {5, 2, 8, 1, 9, 3};
+    int arr[] = { 5, 2, 8, 1, 9, 3 };
     qsort(arr, 6, sizeof(int), compare_ints);
 
     printf("    qsort([5,2,8,1,9,3]) = [%d,%d,%d,%d,%d,%d]\n",

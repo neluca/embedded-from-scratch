@@ -223,7 +223,7 @@ void trigger_hardfault(int method)
         /* 方法 2: 非对齐的 32 位内存访问
          * M0 不支持非对齐的字/半字访问 */
         sh_write0("    (Unaligned 32-bit memory access)\n");
-        uint8_t  buf[8];
+        uint8_t buf[8];
         uint32_t addr = (uint32_t)&buf[1]; /* 非字对齐地址 */
         volatile uint32_t *p = (volatile uint32_t *)addr;
         (void)*p; /* ← 这会触发 HardFault (非对齐访问)! */

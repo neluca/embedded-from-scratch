@@ -72,11 +72,11 @@ typedef struct
 } uart_regs_t;
 
 /* nRF51 UART task 宏: 写 1 触发 */
-#define UART_TASK_STARTRX  (*(volatile uint32_t *)0x40002000)
-#define UART_TASK_STOPRX   (*(volatile uint32_t *)0x40002004)
-#define UART_TASK_STARTTX  (*(volatile uint32_t *)0x40002008)
-#define UART_TASK_STOPTX   (*(volatile uint32_t *)0x4000200C)
-#define UART_TASK_SUSPEND  (*(volatile uint32_t *)0x4000201C)
+#define UART_TASK_STARTRX (*(volatile uint32_t *)0x40002000)
+#define UART_TASK_STOPRX  (*(volatile uint32_t *)0x40002004)
+#define UART_TASK_STARTTX (*(volatile uint32_t *)0x40002008)
+#define UART_TASK_STOPTX  (*(volatile uint32_t *)0x4000200C)
+#define UART_TASK_SUSPEND (*(volatile uint32_t *)0x4000201C)
 
 /* UART_BASE 从 0x40002000 开始, struct RESERVED0[64] 跳过 task 区(0x000-0x0FF) */
 #define UART_BASE ((uart_regs_t *)0x40002000)
@@ -145,23 +145,23 @@ typedef struct
 #define GPIO_BASE ((gpio_regs_t *)0x50000000)
 
 /* PIN_CNF 位 */
-#define PIN_CNF_DIR_OUTPUT   (1U << 0)  /* 1=output, 0=input */
-#define PIN_CNF_DIR_INPUT    0
-#define PIN_CNF_INPUT_CONNECT (1U << 1)  /* 1=connect, 0=disconnect input buffer */
-#define PIN_CNF_PULL_DISABLED (0U << 2)
-#define PIN_CNF_PULL_DOWN     (1U << 2)
-#define PIN_CNF_PULL_UP       (3U << 2)
-#define PIN_CNF_DRIVE_S0S1    (0U << 8)  /* Standard 0, standard 1 */
-#define PIN_CNF_DRIVE_H0S1    (1U << 8)
-#define PIN_CNF_DRIVE_S0H1    (2U << 8)
-#define PIN_CNF_DRIVE_H0H1    (3U << 8)
+#define PIN_CNF_DIR_OUTPUT     (1U << 0)  /* 1=output, 0=input */
+#define PIN_CNF_DIR_INPUT      0
+#define PIN_CNF_INPUT_CONNECT  (1U << 1)  /* 1=connect, 0=disconnect input buffer */
+#define PIN_CNF_PULL_DISABLED  (0U << 2)
+#define PIN_CNF_PULL_DOWN      (1U << 2)
+#define PIN_CNF_PULL_UP        (3U << 2)
+#define PIN_CNF_DRIVE_S0S1     (0U << 8)  /* Standard 0, standard 1 */
+#define PIN_CNF_DRIVE_H0S1     (1U << 8)
+#define PIN_CNF_DRIVE_S0H1     (2U << 8)
+#define PIN_CNF_DRIVE_H0H1     (3U << 8)
 #define PIN_CNF_SENSE_DISABLED (0U << 16)
 #define PIN_CNF_SENSE_HIGH     (2U << 16)
 #define PIN_CNF_SENSE_LOW      (3U << 16)
 
 /* microbit 常用引脚 */
-#define MICROBIT_PIN_UART_TX 24  /* P0.24 */
-#define MICROBIT_PIN_UART_RX 25  /* P0.25 */
+#define MICROBIT_PIN_UART_TX  24  /* P0.24 */
+#define MICROBIT_PIN_UART_RX  25  /* P0.25 */
 #define MICROBIT_PIN_LED_COL1 4  /* LED matrix column 1 */
 #define MICROBIT_PIN_LED_ROW1 13 /* LED matrix row 1 */
 #define MICROBIT_PIN_BUTTON_A 17 /* Button A */

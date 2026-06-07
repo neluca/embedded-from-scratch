@@ -51,7 +51,7 @@ typedef struct
 /* --------------------------------------------------------------------------
  * 全局计数器 (在 SysTick 中断中递增)
  * -------------------------------------------------------------------------- */
-static volatile uint32_t g_tick_count    = 0;
+static volatile uint32_t g_tick_count = 0;
 static volatile uint32_t g_systick_fired = 0;
 
 /* --------------------------------------------------------------------------
@@ -159,7 +159,7 @@ void demo_systick(void)
     /* --- 演示 2: 中断模式 --- */
     sh_write0("\n    [1b] Interrupt mode (CONFIGURATION ONLY):\n");
 
-    g_tick_count    = 0;
+    g_tick_count = 0;
     g_systick_fired = 0;
 
     /* 配置 SysTick 中断 */

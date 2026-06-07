@@ -24,7 +24,7 @@
  * -------------------------------------------------------------------------- */
 static void sh_write0(const char *s)
 {
-    register int         r0 __asm__("r0") = 0x04;
+    register int r0 __asm__("r0") = 0x04;
     register const char *r1 __asm__("r1") = s;
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 }
@@ -34,7 +34,7 @@ static void sh_write_hex(uint32_t v)
     for (int i = 9; i >= 2; i--)
     {
         uint32_t n = v & 0xF;
-        b[i]      = n < 10 ? '0' + n : 'A' + n - 10;
+        b[i] = n < 10 ? '0' + n : 'A' + n - 10;
         v >>= 4;
     }
     sh_write0(b);
@@ -261,9 +261,11 @@ int main(void)
 
     /* SYS_EXIT */
     register int r0 __asm__("r0") = 0x18;
-    register int *r1 __asm__("r1") = &(int){0};
+    register int *r1 __asm__("r1") = &(int){ 0 };
     __asm__ volatile("bkpt #0xAB" : "+r"(r0) : "r"(r1) : "memory");
 
-    while (1) {}
+    while (1)
+    {
+    }
     return 0;
 }
