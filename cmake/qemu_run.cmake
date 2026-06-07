@@ -15,15 +15,30 @@
 if(NOT QEMU_PATH)
     if(DEFINED ENV{QEMU_PATH})
         set(QEMU_PATH "$ENV{QEMU_PATH}")
-    elseif(WIN32)
-        find_program(QEMU_FOUND NAMES qemu-system-arm.exe
-            PATHS "C:/Program Files/qemu" NO_DEFAULT_PATH)
+        message(STATUS "Using QEMU_PATH from environment: ${QEMU_PATH}")
+    else()
+        # Try PATH lookup first
+        find_program(QEMU_FOUND NAMES qemu-system-arm qemu-system-arm.exe)
         if(QEMU_FOUND)
             set(QEMU_PATH "${QEMU_FOUND}")
+        else()
+            # Fallback: common install locations
+            set(QEMU_CANDIDATES
+                "C:/Program Files/qemu/qemu-system-arm.exe"
+                "/usr/bin/qemu-system-arm"
+                "/usr/local/bin/qemu-system-arm"
+            )
+            foreach(CANDIDATE ${QEMU_CANDIDATES})
+                if(EXISTS "${CANDIDATE}")
+                    set(QEMU_PATH "${CANDIDATE}")
+                    message(STATUS "Found QEMU at: ${CANDIDATE}")
+                    break()
+                endif()
+            endforeach()
+            if(NOT QEMU_PATH)
+                message(WARNING "qemu-system-arm not found. QEMU run targets will be unavailable.")
+            endif()
         endif()
-    endif()
-    if(NOT QEMU_PATH)
-        find_program(QEMU_PATH NAMES qemu-system-arm)
     endif()
     set(QEMU_PATH "${QEMU_PATH}" CACHE FILEPATH "Path to qemu-system-arm")
 endif()
@@ -34,6 +49,12 @@ message(STATUS "QEMU: ${QEMU_PATH}")
 # add_qemu_targets — add ELF run/debug targets + BIN generation + BIN run target
 # ==============================================================================
 function(add_qemu_targets TARGET)
+    # Guard: skip if QEMU is not available
+    if(NOT QEMU_PATH)
+        message(STATUS "  QEMU targets: SKIPPED (qemu-system-arm not found)")
+        return()
+    endif()
+
     set(ELF_FILE "$<TARGET_FILE:${TARGET}>")
 
     # --- Ensure .bin is generated via objcopy ---
