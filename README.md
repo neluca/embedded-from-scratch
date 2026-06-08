@@ -36,6 +36,8 @@ qemu-system-arm -M microbit \
 
 看到 `Hello Embedded World!` 就成功了！
 
+![QEMU Lesson 1 output](docs/lesson_01_qemu_output.png)
+
 ### 设置 ARM GCC 前缀（可选）
 
 如果 `arm-none-eabi-gcc` 不在 PATH 中：
