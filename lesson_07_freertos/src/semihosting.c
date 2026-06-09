@@ -41,3 +41,10 @@ void sh_write_dec(uint32_t v)
     }
     sh_write0(&b[p]);
 }
+void sh_exit(int code)
+{
+    /* SYS_EXIT = 0x18, parameter = pointer to exit code
+     * On QEMU this terminates the emulation cleanly. */
+    uint32_t arg = (uint32_t)code;
+    sh_call(0x18, &arg);
+}

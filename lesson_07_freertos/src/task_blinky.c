@@ -51,8 +51,11 @@ void task_blinky(void *pvParameters)
 
         if (blink_count >= MAX_BLINKS)
         {
-            sh_write0("[Blinky] Demo complete. Suspending self.\n");
-            /* 挂起自己 → 不再被调度, 但也不消耗 CPU */
+            sh_write0("[Blinky] Demo complete. Exiting.\n");
+            /* 通过 semihosting 干净退出 QEMU, 防止 CI 超时 */
+            sh_write0("\n=== Lesson 7 Complete ===\n");
+            sh_exit(0);
+            /* 如果 sh_exit 返回 (不应发生), 挂起自己 */
             vTaskSuspend(NULL);
         }
 

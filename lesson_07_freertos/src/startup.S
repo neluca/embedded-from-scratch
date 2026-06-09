@@ -19,10 +19,10 @@ vector_table:
     .word   reset_handler
     .word   default_handler     @ NMI
     .word   default_handler     @ HardFault
-    .space  (11 - 4 + 1) * 4    @ 保留
-    .word   SVC_Handler         @ SVCall → FreeRTOS 启动第一个任务
-    .space  2 * 4               @ 保留
-    .word   PendSV_Handler      @ PendSV → FreeRTOS 上下文切换
+    .space  (11 - 4) * 4          @ [4-10] 保留 (7 条目, 28 字节)
+    .word   SVC_Handler         @ [11] SVCall → FreeRTOS 启动第一个任务
+    .space  2 * 4               @ [12-13] 保留
+    .word   PendSV_Handler      @ [14] PendSV → FreeRTOS 上下文切换
     .word   SysTick_Handler     @ SysTick → FreeRTOS 系统节拍
     .space  32 * 4              @ 外设中断
 

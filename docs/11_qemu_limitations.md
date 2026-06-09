@@ -132,7 +132,12 @@ object_property_set_int(OBJECT(&s->cpu), "system_clock_scale",
 | Lesson 4 (SysTick demo) | COUNTFLAG 轮询验证计数器运行 ✓ |
 | Lesson 7 CI (GitHub Actions) | 协作式调度 + COUNTFLAG 轮询，QEMU 验证基本功能 |
 | 本地开发 | 推荐真实 microbit 硬件（约 $15） |
-| FreeRTOS 完整测试 | 使用 `mps2-an385` 或真实硬件 |
+| FreeRTOS 完整测试 | 使用真实硬件 |
+
+> **2026-06 更新**: 修复向量表中 SVC_Handler 的偏移后（`.space (11-4)*4`），
+> FreeRTOS 在 QEMU microbit 上可以正常进行上下文切换。
+> PendSV 从线程模式触发（而非从 ISR 触发）时工作正常。
+> 调度器启动、任务切换、队列通信和 vTaskDelay 阻塞均验证通过。
 
 ### Lesson 7 的 QEMU 兼容代码
 

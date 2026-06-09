@@ -139,11 +139,11 @@ jobs:
       # --- Lesson 7: FreeRTOS ---
       - name: Test Lesson 7 — FreeRTOS
         run: |
-          OUTPUT=$(qemu-system-arm -M microbit \
+          OUTPUT=$(timeout 30 qemu-system-arm -M microbit \
             -kernel build/lesson_07_freertos/lesson_07_freertos.elf \
             -semihosting -nographic -serial null -monitor none 2>&1) || true
           echo "$OUTPUT"
-          echo "$OUTPUT" | grep -q "Lesson 7: FreeRTOS" && echo "PASS: L7" || { echo "FAIL: L7"; exit 1; }
+          echo "$OUTPUT" | grep -q "Lesson 7 Complete" && echo "PASS: L7" || { echo "FAIL: L7"; exit 1; }
 
       # --- Lesson 8: Advanced ---
       - name: Test Lesson 8 — Advanced
@@ -204,5 +204,5 @@ jobs:
         run: |
           echo "========================================="
           echo "  All QEMU tests completed."
-          echo "  L7 (FreeRTOS): Cooperative mode + COUNTFLAG polling."
+          echo "  L7 (FreeRTOS): COUNTFLAG polling + cooperative scheduling."
           echo "========================================="
