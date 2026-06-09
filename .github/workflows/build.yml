@@ -136,13 +136,14 @@ jobs:
           echo "$OUTPUT"
           echo "$OUTPUT" | grep -q "Lesson 6 complete" && echo "PASS: L6" || { echo "FAIL: L6"; exit 1; }
 
-      # --- Lesson 7: FreeRTOS (build-only verification) ---
-      - name: Test Lesson 7 — FreeRTOS (build-only)
+      # --- Lesson 7: FreeRTOS ---
+      - name: Test Lesson 7 — FreeRTOS
         run: |
-          echo "Lesson 7: FreeRTOS — build verified, QEMU run skipped."
-          echo "Reason: QEMU microbit does not deliver SysTick interrupts."
-          echo "FreeRTOS scheduler cannot run without SysTick."
-          test -f build/lesson_07_freertos/lesson_07_freertos.elf && echo "PASS: L7 (ELF exists)" || { echo "FAIL: L7 ELF missing"; exit 1; }
+          OUTPUT=$(qemu-system-arm -M microbit \
+            -kernel build/lesson_07_freertos/lesson_07_freertos.elf \
+            -semihosting -nographic -serial null -monitor none 2>&1) || true
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Lesson 7: FreeRTOS" && echo "PASS: L7" || { echo "FAIL: L7"; exit 1; }
 
       # --- Lesson 8: Advanced ---
       - name: Test Lesson 8 — Advanced
@@ -203,5 +204,5 @@ jobs:
         run: |
           echo "========================================="
           echo "  All QEMU tests completed."
-          echo "  L7 (FreeRTOS): Build verified, QEMU skipped."
+          echo "  L7 (FreeRTOS): Cooperative mode + COUNTFLAG polling."
           echo "========================================="

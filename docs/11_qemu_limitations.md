@@ -130,7 +130,7 @@ object_property_set_int(OBJECT(&s->cpu), "system_clock_scale",
 | 场景 | 做法 |
 |------|------|
 | Lesson 4 (SysTick demo) | COUNTFLAG 轮询验证计数器运行 ✓ |
-| Lesson 7 CI (GitHub Actions) | 验证编译通过，跳过 QEMU 运行 |
+| Lesson 7 CI (GitHub Actions) | 协作式调度 + COUNTFLAG 轮询，QEMU 验证基本功能 |
 | 本地开发 | 推荐真实 microbit 硬件（约 $15） |
 | FreeRTOS 完整测试 | 使用 `mps2-an385` 或真实硬件 |
 

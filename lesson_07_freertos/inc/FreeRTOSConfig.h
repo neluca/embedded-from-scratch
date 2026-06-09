@@ -27,7 +27,7 @@
 /* --------------------------------------------------------------------------
  * 调度器配置
  * -------------------------------------------------------------------------- */
-#define configUSE_PREEMPTION   1 /* 抢占式调度 */
+#define configUSE_PREEMPTION   0 /* 协作式调度 (QEMU 兼容: 避免 PendSV 硬故障) */
 #define configUSE_TIME_SLICING 1 /* 同优先级任务时间片轮转 */
 #define configUSE_IDLE_HOOK    1 /* 空闲钩子: QEMU 用 COUNTFLAG 轮询模拟 SysTick */
 #define configUSE_TICK_HOOK    0 /* 不使用节拍钩子 */
